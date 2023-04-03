@@ -1,0 +1,113 @@
+<html>
+<head>
+<title>Chapter 10</title>
+<link href='http://fonts.googleapis.com/css?family=Merriweather' rel='stylesheet' type='text/css'>
+<link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
+<link rel="stylesheet" href="css/styles.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+</head>    
+<body class="tiled">
+<header>
+    <h1>Art Filters</h1>
+</header>
+<main>
+    <div id="sliderBox">
+        <form>
+           <label>Opacity: </label><p><input type="range" id="sliderOpacity" min="0" max="100" value="100" class="sliders" /> <span id="numOpacity">100</span>%</p>
+           <p><label>Saturation: </label><input type="range" id="sliderSaturation" min="1" max="300" value="100" class="sliders"/> <span id="numSaturation">100</span>%</p>
+           <p><label>Brightness: </label><input type="range" id="sliderBrightness" min="0" max="300" value="100" class="sliders" /> <span id="numBrightness">100</span>%</p>
+           <p><label>Hue Rotate: </label><input type="range" id="sliderHue" min="0" max="360" value="0" class="sliders" /> <span id="numHue">0</span>deg</p>
+           <p><label>Grayscale: </label><input type="range" id="sliderGray" min="0" max="100" value="0" class="sliders"/> <span id="numGray">0</span>%</p>
+           <p><label>Blur: </label><input type="range" id="sliderBlur" min="0" max="10" value="0" class="sliders" /> <span id="numBlur">0</span>px</p>
+           <p><button id="resetFilters">Reset</button> </p>
+        </form>    
+    </div>
+    <figure id="imgManipulated">
+        <img src="images/medium/painting1.jpg" > 
+        <figcaption>
+            <em>Still Life with Flowers in a Glass Vase</em> <br>
+            Jan Davidsz. de Heem, 1650 - 1683
+        </figcaption>
+    </figure>   
+    <div id="thumbBox">
+        <div><img src="images/small/painting1.jpg"  alt="Still Life with Flowers in a Glass Vase" title="Jan Davidsz. de Heem, 1650 - 1683"/></div>
+        <div><img src="images/small/painting2.jpg"  alt="Portrait of Alida Christina Assink" title="Jan Adam Kruseman, 1833"/></div>
+        <div><img src="images/small/painting3.jpg"  alt="Self-portrait" title="Vincent van Gogh, 1887"/></div>
+        <div><img src="images/small/painting4.jpg"  alt="William II, Prince of Orange, and his Bride, Mary Stuart" title="Anthony van Dyck, 1641"/></div>
+        <div><img src="images/small/painting5.jpg"  alt="Milkmaid" title="Johannes Vermeer, c. 1660"/></div>
+    </div>
+</main>
+<script>
+var filter = {};
+$(document).ready(function() {
+    $('#thumbBox img').click(function() {
+        $('#imgManipulated img').attr('src', $(this).attr('src').replace("small", "medium"));
+        $('#imgManipulated figcaption').html('<em>'+ $(this).attr("title")+"</em></br>"+$(this).attr("alt"));
+        filter = {};
+        filterEffect();
+    });
+    function filterEffect() {
+        var filt = '';
+        if('opacity' in filter) {
+            filt += ' opacity('+filter['opacity']+'%)';
+        }
+        if('saturate' in filter) {
+            filt += ' saturate('+filter['saturate']+'%)';
+        }
+        if('brightness' in filter) {
+            filt+= ' brightness('+filter['brightness']+'%)';
+        }
+        if('hue-rotate' in filter) {
+            filt += ' hue-rotate('+filter['hue-rotate']+'deg)';
+        }
+        if('grayscale' in filter) {
+            filt += ' grayscale('+filter['grayscale']+'%)';
+        }
+        if('blur' in filter) {
+            filt += ' blur('+filter['blur']+'px)';
+        }
+        $("#imgManipulated img")
+            .css('filter',filt)
+            .css('webkitFilter',filt)
+            
+    }
+    $('#sliderOpacity').on('change', function(){
+        filter['opacity'] = $(this).val();
+        $('#numOpacity').text($(this).val());
+        filterEffect();
+    });
+    $('#sliderSaturation').on('change', function(){
+        filter['saturate'] = $(this).val();
+        $('#numSaturation').text($(this).val());
+        filterEffect();
+    });
+    $('#sliderBrightness').on('change', function(){
+        filter['brightness'] = $(this).val();
+        $('#numBrightness').text($(this).val());
+        filterEffect();
+    });
+    $('#sliderHue').on('change', function(){
+        filter['hue-rotate'] = $(this).val();
+        $('#numHue').text($(this).val());
+        filterEffect();
+    });
+    $('#sliderBlur').on('change', function(){
+        filter['blur'] = $(this).val();
+        $('#numBlur').text($(this).val());
+        filterEffect();
+    });
+    $('#sliderGray').on('change', function(){
+        filter['grayscale'] = $(this).val();
+        $('#numGray').text($(this).val());
+        filterEffect();
+    });
+    $('#resetFilters').click(function() {
+        filter = {};
+        filterEffect();
+    });
+});
+    
+</script>    
+</body>   
+</html>
